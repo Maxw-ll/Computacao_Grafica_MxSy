@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Trabalho - Computação Gráfica</title>
+
+    <!-- Commons -->
+    <script src="Common\webgl-utils.js"></script>
+    <script src="Common\initShaders.js"></script>
+    <script src="Common\MV.js"></script>
+
+    <!-- Seu script -->
+    <script src="scriptS.js"></script>
+
+    <style>
+        body { background: #111; color: white; text-align: center; }
+        #controls { margin-top: 12px; }
+        button { padding: 6px 12px; margin: 4px; }
+    </style>
+</head>
+
+<body>
+    <h2>Trabalho – WebGL Interativo</h2>
+
+    <canvas id="gl-canvas" width="700" height="500" style="border:1px solid white;"></canvas>
+
+    <div id="controls">
+        <button onclick="setMode('translate')">Translação</button>
+        <button onclick="setMode('rotate')">Rotação</button>
+        <button onclick="setMode('scale')">Escala</button>
+    </div>
+
+    <!-- Shaders -->
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec2 vPosition;
+        uniform mat4 transform;
+        uniform vec4 vColor;
+
+        varying vec4 fColor;
+
+        void main() {
+            gl_Position = transform * vec4(vPosition, 0.0, 1.0);
+            fColor = vColor;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 fColor;
+        void main() {
+            gl_FragColor = fColor;
+        }
+    </script>
+</body>
+</html>
