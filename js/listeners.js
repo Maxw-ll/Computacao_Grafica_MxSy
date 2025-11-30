@@ -1,9 +1,8 @@
 function setupMouse(canvas) {
 
-    canvas.addEventListener("mousedown", (e) => {
+    canvas.addEventListener("mousedown", function(e) {
 
-        // MODO ESPELHO
-        if (mirrorMode) {
+        if (mirrorMode === true) {
 
             let px = (2 * e.offsetX / gl.canvas.width) - 1;
             let py = 1 - (2 * e.offsetY / gl.canvas.height);
@@ -23,19 +22,17 @@ function setupMouse(canvas) {
             return;
         }
 
-        // MODO NORMAL
         pick(e.offsetX, e.offsetY);
 
-        if (selectedObj) {
+        if (selectedObj !== null) {
             dragging = true;
             lastMouse = { x: e.offsetX, y: e.offsetY };
         }
     });
 
-    canvas.addEventListener("mousemove", (e) => {
+    canvas.addEventListener("mousemove", function(e) {
 
-        if (mirrorMode && mirrorPoints.length === 1) {
-
+        if (mirrorMode === true && mirrorPoints.length === 1) {
             let px = (2 * e.offsetX / gl.canvas.width) - 1;
             let py = 1 - (2 * e.offsetY / gl.canvas.height);
 
@@ -43,7 +40,9 @@ function setupMouse(canvas) {
             return;
         }
 
-        if (!dragging || !selectedObj || mirrorMode) return;
+        if (dragging === false || selectedObj === null || mirrorMode === true) {
+            return;
+        }
 
         let dxPixels = e.offsetX - lastMouse.x;
         let dyPixels = e.offsetY - lastMouse.y;
@@ -51,37 +50,48 @@ function setupMouse(canvas) {
         let dx = (dxPixels / gl.canvas.width) * 2;
         let dy = -(dyPixels / gl.canvas.height) * 2;
 
-        let o = selectedObj;
-
         if (mode === "translate") {
-            o.translation[0] += dx;
-            o.translation[1] += dy;
+            selectedObj.translation[0] += dx;
+            selectedObj.translation[1] += dy;
         }
+
         if (mode === "rotate") {
-            o.rotation += dx * 200;
+            selectedObj.rotation += dx * 200;
         }
+
         if (mode === "scale") {
             let s = 1 + dx;
-            o.scale[0] *= s;
-            o.scale[1] *= s;
+            selectedObj.scale[0] *= s;
+            selectedObj.scale[1] *= s;
         }
 
-        o.transform = rebuildMatrix(o);
+        selectedObj.transform = rebuildMatrix(selectedObj);
+
         lastMouse = { x: e.offsetX, y: e.offsetY };
     });
 
-    canvas.addEventListener("mouseup", () => {
+    canvas.addEventListener("mouseup", function() {
         dragging = false;
     });
 }
 
+window.addEventListener("keydown", function(e) {
 
-// Teclado
-window.addEventListener("keydown", (e) => {
-    const k = e.key.toLowerCase();
+    let key = e.key.toLowerCase();
 
-    if (k === "t") setMode("translate");
-    if (k === "r") setMode("rotate");
-    if (k === "e") setMode("scale");
-    if (k === "w") enterMirrorMode();
+    if (key === "t") {
+        setMode("translate");
+    }
+
+    if (key === "r") {
+        setMode("rotate");
+    }
+
+    if (key === "e") {
+        setMode("scale");
+    }
+
+    if (key === "w") {
+        enterMirrorMode();
+    }
 });
