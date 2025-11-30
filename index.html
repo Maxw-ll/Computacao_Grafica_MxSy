@@ -4,33 +4,117 @@
     <meta charset="utf-8">
     <title>Trabalho - Computação Gráfica</title>
 
-    <!-- Commons -->
-    <script src="Common\webgl-utils.js"></script>
-    <script src="Common\initShaders.js"></script>
-    <script src="Common\MV.js"></script>
+    <!-- Libs Commons -->
+    <script src="Common/webgl-utils.js"></script>
+    <script src="Common/initShaders.js"></script>
+    <script src="Common/MV.js"></script>
 
-    <!-- Seu script -->
-    <script src="scriptS.js"></script>
+    <!-- Scripts do Projeto (ORDEM IMPORTA!) -->
+    <script src="js/objects.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/transform.js"></script>
+    <script src="js/picking.js"></script>
+    <script src="js/mirror.js"></script>
+    <script src="js/listeners.js"></script>
+    <script src="js/info.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/main.js"></script>
 
+    <!-- ESTILO -->
     <style>
-        body { background: #111; color: white; text-align: center; }
-        #controls { margin-top: 12px; }
-        button { padding: 6px 12px; margin: 4px; }
+        body {
+            background: #111; 
+            color: white; 
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            margin-top: 15px;
+        }
+
+        /* Layout geral: canvas à esquerda, info à direita */
+        #layout {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        #gl-canvas {
+            border: 1px solid white;
+        }
+
+        /* Painel lateral */
+        #infoPanel {
+            width: 280px;
+            background: #1f1f1f;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: left;
+        }
+
+        #infoPanel h3 {
+            margin: 10px 0 5px 0;
+            color: #0f0;
+        }
+
+        #infoText {
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            height: 400px;
+            overflow-y: auto;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        /* Botões */
+        #infoPanel button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            background: #333;
+            border: 1px solid #555;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        #infoPanel button:hover {
+            background: #444;
+        }
     </style>
 </head>
 
 <body>
-    <h2>Trabalho – WebGL Interativo</h2>
+    <h2>Trabalho Computação Gráfica: Maxwell e Sabryna</h2>
 
-    <canvas id="gl-canvas" width="700" height="500" style="border:1px solid white;"></canvas>
+    <div id="layout">
 
-    <div id="controls">
-        <button onclick="setMode('translate')">Translação</button>
-        <button onclick="setMode('rotate')">Rotação</button>
-        <button onclick="setMode('scale')">Escala</button>
+        <!-- CANVAS À ESQUERDA -->
+        <canvas id="gl-canvas" width="1000" height="800"></canvas>
+
+        <!-- PAINEL LATERAL À DIREITA -->
+        <div id="infoPanel">
+            <h3>Objeto Selecionado</h3>
+            <pre id="infoText">Nenhum objeto</pre>
+
+            <h3>Controles</h3>
+            <button onclick="enterMirrorMode()">Espelhamento [W]</button>
+            <button onclick="setMode('scale')">Escala [E]</button>
+            <button onclick="setMode('rotate')">Rotação [R]</button>
+            <button onclick="setMode('translate')">Translação [T]</button>
+        </div>
+
     </div>
 
-    <!-- Shaders -->
+    <!-- SHADER VERTEX -->
     <script id="vertex-shader" type="x-shader/x-vertex">
         attribute vec2 vPosition;
         uniform mat4 transform;
@@ -44,6 +128,7 @@
         }
     </script>
 
+    <!-- SHADER FRAGMENT -->
     <script id="fragment-shader" type="x-shader/x-fragment">
         precision mediump float;
         varying vec4 fColor;
@@ -51,5 +136,6 @@
             gl_FragColor = fColor;
         }
     </script>
+
 </body>
 </html>
