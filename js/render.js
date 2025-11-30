@@ -3,6 +3,8 @@ function drawObject(obj) {
     let buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
+    
+    applyTranslateCenterToInit()
     gl.bufferData(gl.ARRAY_BUFFER, flatten(obj.vertices), gl.STATIC_DRAW);
 
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
