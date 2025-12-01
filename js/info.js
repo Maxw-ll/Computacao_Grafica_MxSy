@@ -28,7 +28,7 @@ function updateInfoPanel() {
         selectedObj.scale[0].toFixed(2) + ", " +
         selectedObj.scale[1].toFixed(2) + ")\n\n";
 
-    text += "Centro (world-space): (" +
+    text += "Centro (No Mundo): (" +
         center[0].toFixed(3) + ", " +
         center[1].toFixed(3) + ")\n\n";
 
