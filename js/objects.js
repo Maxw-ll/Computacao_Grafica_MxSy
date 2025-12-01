@@ -69,14 +69,8 @@ function applyTranslateCenterToInit(){
 
         let cx = 0;
         let cy = 0;
-        
-        for (let i = 0; i < obj.vertices.length; i++) {
-            cx += obj.vertices[i][0];
-            cy += obj.vertices[i][1];
-        }
-        
-        cx /= obj.vertices.length;
-        cy /= obj.vertices.length;
+
+        [cx, cy] = computeLocalCenter(obj)
         
         let localVerts = [];
         

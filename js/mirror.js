@@ -46,17 +46,9 @@ function applyMirrorToSelected() {
         reflected.push(r);
     }
 
-    let cx = 0;
-    let cy = 0;
-
-    for (let i = 0; i < reflected.length; i++) {
-        cx += reflected[i][0];
-        cy += reflected[i][1];
-    }
-
-    cx /= reflected.length;
-    cy /= reflected.length;
-
+    //Centro Refletido
+    [cx, cy] = computeLocalCenter({vertices: reflected})
+    
     let localVerts = [];
 
     for (let i = 0; i < reflected.length; i++) {
