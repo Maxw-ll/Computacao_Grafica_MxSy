@@ -34,22 +34,36 @@ function pointInPolygon(point, verts) {
     let y = point[1];
     let inside = false;
 
-    for (let i = 0, j = verts.length - 1; i < verts.length; j = i++) {
+    for (let i = 0; i < verts.length; i++) {
 
-        let xi = verts[i][0];
-        let yi = verts[i][1];
+        let verticeAtual = verts[i];
+        let xi = verticeAtual[0];
+        let yi = verticeAtual[1];
 
-        let xj = verts[j][0];
-        let yj = verts[j][1];
+        let verticeAnterior;
+        if (i === 0) {
+            verticeAnterior = verts[verts.length - 1];
+        } else {
+            verticeAnterior = verts[i - 1];
+        }
 
-        let cond1 = (yi > y) !== (yj > y);
+        let xj = verticeAnterior[0];
+        let yj = verticeAnterior[1];
 
-        let cond2 = x < ((xj - xi) * (y - yi)) / ((yj - yi) || 0.00001) + xi;
+        let condicaoVertical =
+            (yi > y && yj <= y) ||
+            (yj > y && yi <= y);
 
-        if (cond1 && cond2) {
-            inside = !inside;
+        if (condicaoVertical) {
+            let xIntersecao =
+                xi + (y - yi) * (xj - xi) / (yj - yi);
+
+            if (x < xIntersecao) {
+                inside = !inside;
+            }
         }
     }
 
     return inside;
 }
+
