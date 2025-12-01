@@ -4,8 +4,8 @@ function pick(x, y) {
         return;
     }
 
-    let cx = (2 * x / gl.canvas.width) - 1;
-    let cy = 1 - (2 * y / gl.canvas.height);
+    let mx = (2 * x / gl.canvas.width) - 1;
+    let my = 1 - (2 * y / gl.canvas.height);
 
     selectedObj = null;
 
@@ -14,10 +14,9 @@ function pick(x, y) {
 
         let inv = inverse(obj.transform);
 
-        let xp = inv[0][0] * cx + inv[0][1] * cy + inv[0][3];
-        let yp = inv[1][0] * cx + inv[1][1] * cy + inv[1][3];
+        let [mxl, myl] = applyMat4ToVec2(inv, [mx, my])
 
-        let inside = pointInPolygon([xp, yp], obj.vertices);
+        let inside = pointInPolygon([mxl, myl], obj.vertices);
 
         if (inside === true) {
             obj.selected = true;
@@ -37,8 +36,8 @@ function pointInPolygon(point, verts) {
     for (let i = 0; i < verts.length; i++) {
 
         let verticeAtual = verts[i];
-        let xi = verticeAtual[0];
-        let yi = verticeAtual[1];
+        let xCurrent = verticeAtual[0];
+        let yCurrent = verticeAtual[1];
 
         let verticeAnterior;
         if (i === 0) {
@@ -47,16 +46,16 @@ function pointInPolygon(point, verts) {
             verticeAnterior = verts[i - 1];
         }
 
-        let xj = verticeAnterior[0];
-        let yj = verticeAnterior[1];
+        let xLast = verticeAnterior[0];
+        let yLast = verticeAnterior[1];
 
         let condicaoVertical =
-            (yi > y && yj <= y) ||
-            (yj > y && yi <= y);
+            (yCurrent > y && yLast <= y) ||
+            (yLast > y && yCurrent <= y);
 
         if (condicaoVertical) {
             let xIntersecao =
-                xi + (y - yi) * (xj - xi) / (yj - yi);
+                xCurrent + (y - yCurrent) * (xLast - xCurrent) / (yLast - yCurrent);
 
             if (x < xIntersecao) {
                 inside += 1;

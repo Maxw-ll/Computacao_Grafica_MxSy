@@ -61,7 +61,6 @@ let objects = [
 ];
 
 function applyTranslateCenterToInit(){
-    
 
     for(let i=0; i<objects.length; i++){
 
