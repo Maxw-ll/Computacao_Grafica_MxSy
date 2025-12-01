@@ -15,6 +15,8 @@ window.onload = () => {
     vPosition = gl.getAttribLocation(program, "vPosition");
     transformLoc = gl.getUniformLocation(program, "transform");
     colorLoc = gl.getUniformLocation(program, "vColor");
+
+    applyTranslateCenterToInit();
     
     
     setupMouse(canvas);

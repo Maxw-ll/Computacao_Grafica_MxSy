@@ -60,38 +60,42 @@ let objects = [
     }
 ];
 
-function applyTranslateCenterToInit(obj){
+function applyTranslateCenterToInit(){
+    
 
+    for(let i=0; i<objects.length; i++){
+
+        obj = objects[i];
 
         let cx = 0;
         let cy = 0;
-
-        for (let i = 0; i < o.vertices.length; i++) {
-            cx += o[i][0]
-            cy += o[i][1];
+        
+        for (let i = 0; i < obj.vertices.length; i++) {
+            cx += obj.vertices[i][0];
+            cy += obj.vertices[i][1];
         }
-
-
-
-        cx /= o.vertices.length;
-        cy /= o.vertices.length;
-
+        
+        cx /= obj.vertices.length;
+        cy /= obj.vertices.length;
+        
         let localVerts = [];
-
-        for (let i = 0; i < o.vertices.length; i++) {
-            let vx = o[i][0] - cx;
-            let vy = o[i][1] - cy;
+        
+        for (let i = 0; i < obj.vertices.length; i++) {
+            let vx = obj.vertices[i][0] - cx;
+            let vy = obj.vertices[i][1] - cy;
             localVerts.push(vec2(vx, vy));
         }
-
-        o.vertices = localVerts;
-
-        console.log(`${o.name}`)
-
-        o.translation = vec2(cx, cy);
-        o.rotation = 0;
-        o.scale = vec2(1, 1);
-        o.transform = rebuildMatrix(o);
+        
+        obj.vertices = localVerts;
+        
+        console.log(`${obj.name}`)
+        
+        obj.translation = vec2(cx, cy);
+        obj.rotation = 0;
+        obj.scale = vec2(1, 1);
+        obj.transform = rebuildMatrix(obj);
         
     }
-
+}
+    
+    
