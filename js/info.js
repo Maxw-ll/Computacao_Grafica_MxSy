@@ -32,7 +32,7 @@ function updateInfoPanel() {
         center[0].toFixed(3) + ", " +
         center[1].toFixed(3) + ")\n\n";
 
-    text += "--- Vértices (local-space) ---\n";
+    text += "--- Vértices (Local) ---\n";
 
     for (let i = 0; i < selectedObj.vertices.length; i++) {
         let v = selectedObj.vertices[i];
@@ -41,7 +41,7 @@ function updateInfoPanel() {
             v[1].toFixed(3) + ")\n";
     }
 
-    text += "\n--- Vértices (world-space) ---\n";
+    text += "\n--- Vértices (Mundo) ---\n";
 
     for (let i = 0; i < selectedObj.vertices.length; i++) {
         let v = selectedObj.vertices[i];
