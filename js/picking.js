@@ -32,7 +32,7 @@ function pointInPolygon(point, verts) {
 
     let x = point[0];
     let y = point[1];
-    let inside = false;
+    let inside = 0;
 
     for (let i = 0; i < verts.length; i++) {
 
@@ -59,11 +59,15 @@ function pointInPolygon(point, verts) {
                 xi + (y - yi) * (xj - xi) / (yj - yi);
 
             if (x < xIntersecao) {
-                inside = !inside;
+                inside += 1;
             }
         }
     }
 
-    return inside;
+    if(inside % 2 == 0){
+        return false;
+    } 
+
+    return true;
 }
 
